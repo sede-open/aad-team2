@@ -38,7 +38,7 @@ kind: Deployment
 metadata:
   name: blackboxgameengine
 spec:
-  replicas: 3
+  replicas: 10
   selector:
     matchLabels:
       name: blackboxgameengine      
@@ -61,6 +61,11 @@ spec:
           - containerPort: 80
             name: gameengine
             protocol: TCP
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
         readinessProbe:
           httpGet:
             path: /health
