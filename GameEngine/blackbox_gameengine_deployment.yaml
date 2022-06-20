@@ -38,7 +38,7 @@ kind: Deployment
 metadata:
   name: blackboxgameengine
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       name: blackboxgameengine      
@@ -61,6 +61,11 @@ spec:
           - containerPort: 80
             name: gameengine
             protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
         env: 
           - name: "ConnectionStrings__GameEngineDB"
             value: "Server=tcp:game-sqlserver-5b1475.database.windows.net,1433;Initial Catalog=gamedb;Persist Security Info=False;User ID=gamedbadministrator;Password=K4Cq8JWsqtz5L7Dr;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
