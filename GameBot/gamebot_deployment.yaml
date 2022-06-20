@@ -19,13 +19,16 @@ kind: Deployment
 metadata:
   name: gamebot
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       name: gamebot      
   minReadySeconds: 5
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -41,10 +44,17 @@ spec:
           - containerPort: 8080
             name: gamebot         
             protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
         env: 
           - name: "PORT"
             value: "8080"
           - name: "PICK_STRATEGY"
             value: "RANDOM"
-#          - name: "APPINSIGHTS_INSTRUMENTATIONKEY"
-#            value: "00000000-0000-0000-0000-000000000000"            
+          - name: "FF_BETS"
+            value: "true"
+          - name: "APPINSIGHTS_INSTRUMENTATIONKEY"
+            value: "bc81b63b-7c54-4626-b36d-3006e88df362"            
