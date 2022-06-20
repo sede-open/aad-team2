@@ -19,7 +19,7 @@ kind: Deployment
 metadata:
   name: gamebot
 spec:
-  replicas: 3
+  replicas: 10
   selector:
     matchLabels:
       name: gamebot      
@@ -44,6 +44,11 @@ spec:
           - containerPort: 8080
             name: gamebot         
             protocol: TCP
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
         readinessProbe:
           httpGet:
             path: /health

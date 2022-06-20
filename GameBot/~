@@ -1,0 +1,28 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: '[{"type":"AbleToScale","status":"True","lastTransitionTime":"2022-06-20T11:54:26Z","reason":"SucceededGetScale","message":"the
+      HPA controller was able to get the target''s current scale"},{"type":"ScalingActive","status":"False","lastTransitionTime":"2022-06-20T11:54:26Z","reason":"FailedGetResourceMetric","message":"the
+      HPA was unable to compute the replica count: failed to get cpu utilization:
+      missing request for cpu"}]'
+  creationTimestamp: "2022-06-20T11:54:11Z"
+  name: blackboxgameengine
+  namespace: default
+  resourceVersion: "74628"
+  uid: 712db250-5ea5-4a93-86d0-a9253ce22e26
+spec:
+  maxReplicas: 10
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: blackboxgameengine
+  targetCPUUtilizationPercentage: 80
+status:
+  currentReplicas: 10
+  desiredReplicas: 0
